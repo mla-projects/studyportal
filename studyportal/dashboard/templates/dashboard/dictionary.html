@@ -1,0 +1,50 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% block content %}
+<section class='text-center container'>
+    <h2>Student Dictionary</h2>
+    <p>Enter any word to get the phonetics, definition, and an example for the word</p>
+    <form action="" method="post">
+        {% csrf_token %}
+        <input type="text" value="{{ query }}" name="query">
+        <input class="btn btn-danger" type="submit" value="Submit">
+    </form><br>
+    
+    {% if query %}
+        {%  if phonetics or definition or example or synonyms %}
+        <div class="content-section p-0 mt-5">
+        <div class="custom-header">
+            <h2>{{ query }}</h2>
+            <h6>{{ phonetics }}</h6>
+            {% if audio %}
+            <audio id="player" controls src="{{ audio }}"></audio>
+            <div>
+                <i class='fa fa-volume-up fa-2x' onclick="document.getElementById('player').play();"></i>
+            </div>
+            {% endif %}
+        </div>
+        
+        <hr class="p-0 m-0">
+        
+        <p class="float-left">
+            <h4>Definition: {{ definition }}</h4>
+            {% if example %}
+            <h4>Example: {{ example }}</h4>
+            {% endif %}
+        </p>
+        {% if synonyms %}
+        <h4>Synonyms:</h4>
+        {% for synonym in synonyms %}
+        <p>{{ synonym }}</p>
+        {% endfor %}
+        {% endif %}
+        <hr>
+    </div>
+        {% elif error %}
+            <h2>{{error}}</h2>
+        {% endif %}
+    {% elif error %}
+    <h2>{{ error }}</h2>
+    {% endif %}
+</section>
+{% endblock content %}

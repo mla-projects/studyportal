@@ -1,0 +1,29 @@
+{% extends 'dashboard/base.html' %} 
+{% load static %} 
+{% block content %}
+<div class="container text-center">
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+            {{form.as_p}}
+            <button  class="btn btn-outline-info" type="submit">
+                Select
+            </button>
+        </div>
+        {% if input %}
+        <fieldset class="form-group">
+            {{m_form.as_p}}
+        </fieldset>
+        <fieldset class="form-group">
+            {{answer}}
+        </fieldset>
+        <div class="form-group">
+            <button class="btn btn-outline-info" type="submit">
+                Convert
+            </button>
+        </div>
+        {% endif %}
+    </form>
+</div>
+
+{% endblock content %}
